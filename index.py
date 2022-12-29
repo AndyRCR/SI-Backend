@@ -63,7 +63,7 @@ def obtainData():
         ax=ax
     )
 
-    texto_modelo = export_text(
+    texto_modelo_inicial = export_text(
         decision_tree=modelo,
         feature_names=list(datos.drop(columns="MEDV").columns)
     )
@@ -121,6 +121,11 @@ def obtainData():
         ax=ax
     )
 
+    texto_modelo_final = export_text(
+        decision_tree=modelo_final,
+        feature_names=list(datos.drop(columns="MEDV").columns)
+    )
+
     # Error de test del modelo inicial
     # -------------------------------------------------------------------------------
     predicciones = modelo.predict(X=X_test)
@@ -146,7 +151,8 @@ def obtainData():
     rmse_final = rmse
 
     return {
-        'textoModelo': str(texto_modelo),
+        'textoModeloInicial': str(texto_modelo_inicial),
+        'textoModeloFinal': str(texto_modelo_final),
         'rmseInicial': str(rmse_inicial),
         'rmseFinal': str(rmse_final)
     }
