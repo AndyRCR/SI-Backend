@@ -3,6 +3,7 @@ from flask_cors import CORS, cross_origin
 from flask import make_response
 from index import obtainData
 app = Flask(__name__)
+
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -14,4 +15,4 @@ def login():
         return resultado
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(host = '0.0.0.0', port = 5000, debug = True)
