@@ -52,9 +52,6 @@ def obtainData():
     # ------------------------------------------------------------------------------
     fig, ax = plt.subplots(figsize=(12, 5))
 
-    print(f"Profundidad del árbol: {modelo.get_depth()}")
-    print(f"Número de nodos terminales: {modelo.get_n_leaves()}")
-
     plot = plot_tree(
         decision_tree=modelo,
         feature_names=datos.drop(columns="MEDV").columns,
@@ -71,14 +68,11 @@ def obtainData():
         feature_names=list(datos.drop(columns="MEDV").columns)
     )
 
-    print(texto_modelo)
-
     importancia_predictores = pd.DataFrame(
         {'predictor': datos.drop(columns="MEDV").columns,
         'importancia': modelo.feature_importances_}
     )
-    print("Importancia de los predictores en el modelo")
-    print("-------------------------------------------")
+
     importancia_predictores.sort_values('importancia', ascending=False)
 
     # Pruning (const complexity pruning) por validación cruzada
@@ -116,8 +110,6 @@ def obtainData():
     # Estructura del árbol final
     # ------------------------------------------------------------------------------
     modelo_final = grid.best_estimator_
-    print(f"Profundidad del árbol: {modelo_final.get_depth()}")
-    print(f"Número de nodos terminales: {modelo_final.get_n_leaves()}")
 
     fig, ax = plt.subplots(figsize=(7, 5))
     plot = plot_tree(
@@ -138,7 +130,8 @@ def obtainData():
         y_pred=predicciones,
         squared=False
     )
-    print(f"El error (rmse) de test es: {rmse}")
+    
+    rmse_inicial = rmse
 
     # Error de test del modelo final (tras aplicar pruning)
     # -------------------------------------------------------------------------------
@@ -150,7 +143,10 @@ def obtainData():
         squared=False
     )
 
+    rmse_final = rmse
+
     return {
-        'texto_modelo': str(texto_modelo),
-        'rmse': str(rmse)
+        'textoModelo': str(texto_modelo),
+        'rmseInicial': str(rmse_inicial),
+        'rmseFinal': str(rmse_final)
     }
